@@ -1,12 +1,13 @@
-import { FirstSuggestions } from "@/components/first-suggestions";
+import { ChatUI } from "@/components/chatui";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Assistant = () => {
   return (
-    <View style={styles.container}>
-      <FirstSuggestions />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ChatUI />
+    </SafeAreaView>
   );
 };
 

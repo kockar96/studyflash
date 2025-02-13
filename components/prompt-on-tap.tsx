@@ -23,7 +23,7 @@ export function PromptOnTap({
   );
 }
 
-type Message = {
+export type Message = {
   id: string;
   display: ReactNode;
 };
@@ -32,7 +32,6 @@ function usePromptOnPress(prompt: string | [string, string]) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [response, setResponse] = useState<string | undefined>(undefined);
   const onSubmit = () => {
-    console.debug("User clicked prompt");
     setResponse("Hi! Great to see you here!");
   };
 
