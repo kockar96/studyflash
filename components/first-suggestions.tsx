@@ -17,11 +17,10 @@ export function FirstSuggestions() {
     >
       {(
         [
-          // ['server rendering apps', 'for native platforms'],
-          "What's the weather",
-          process.env.EXPO_OS !== "web" && "Things to do around me",
-          "Trending movies this week",
-        ].filter(Boolean) as string[]
+          "What is a flashcard?",
+          "Study methods",
+          "How to create decks?",
+        ]
       ).map((title, index) => (
         <Animated.View
           entering={FadeInDown.delay((3 - index) * 100)}
@@ -38,7 +37,6 @@ export function FirstSuggestions() {
                 style={{
                   color: AC.label,
                   fontSize: 16,
-                  // fontWeight: "bold",
                 }}
               >
                 {title}
