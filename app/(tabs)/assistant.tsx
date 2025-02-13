@@ -1,10 +1,11 @@
+import { FirstSuggestions } from "@/components/first-suggestions";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const Assistant = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Assistant Page</Text>
+      <FirstSuggestions />
     </View>
   );
 };
