@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -19,7 +19,7 @@ import { tw } from "@/util/tw";
 import { useAtom } from "jotai";
 import { AnimatedLogo } from "./animated-logo";
 import { ChatContainer } from "./chat-container";
-import { UserMessage } from "./user-message";
+import { ChatMessage } from "./user-message";
 
 const HEADER_HEIGHT = 0;
 
@@ -122,14 +122,9 @@ const AI_MESSAGES = [
 function ChatToolbar() {
   const [messages, setMessages] = useAtom(messagesAtom);
   const onSubmit = (message: string) => {
-    return {
-      id: nanoid(),
-      display: (
-        <UserMessage>
-          {AI_MESSAGES[Math.floor(Math.random() * AI_MESSAGES.length)]}
-        </UserMessage>
-      ),
-    };
+
+    return AI_MESSAGES[Math.floor(Math.random() * AI_MESSAGES.length)]
+
   };
 
   return (

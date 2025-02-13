@@ -1,9 +1,12 @@
 "use client";
 
-import { ReactNode, useCallback, useState } from "react";
+import { messagesAtom } from "@/atoms";
+import { nanoid } from "@/util/nanoid";
+import { useAtom } from "jotai";
+import { ReactNode, useCallback } from "react";
 import { TouchableOpacityProps } from "react-native";
 import TouchableBounce from "./ui/TouchableBounce";
-import { UserMessage } from "./user-message";
+import { ChatMessage } from "./user-message";
 
 export function PromptOnTap({
   prompt,
@@ -28,25 +31,27 @@ export type Message = {
   display: ReactNode;
 };
 
+const LLM_RESPONSES =
+  "LLM is going to respond to this prompt with some content.";
+
 function usePromptOnPress(prompt: string | [string, string]) {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [response, setResponse] = useState<string | undefined>(undefined);
-  const onSubmit = () => {
-    setResponse("Hi! Great to see you here!");
-  };
+  const [messages, setMessages] = useAtom(messagesAtom);
 
   return useCallback(async () => {
-    const [displayPrompt, detailedPrompt] = Array.isArray(prompt)
-      ? prompt
-      : [prompt, prompt];
-    setMessages((currentMessages: any[]) => [
+    setMessages((currentMessages) => [
       ...currentMessages,
       {
-        id: Date.now(),
-        display: <UserMessage>{displayPrompt}</UserMessage>,
+        id: nanoid(),
+        display: <ChatMessage turn="user">{prompt}</ChatMessage>,
       },
     ]);
 
-    setMessages((currentMessages: any[]) => [...currentMessages, response]);
-  }, [setMessages, onSubmit, prompt]);
+    setMessages((currentMessages) => [
+      ...currentMessages,
+      {
+        id: nanoid(),
+        display: <ChatMessage turn="llm">{LLM_RESPONSES}</ChatMessage>,
+      },
+    ]);
+  }, [setMessages, prompt]);
 }

@@ -21,7 +21,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FirstSuggestions } from "./first-suggestions";
 import { IconSymbol } from "./ui/IconSymbol";
 import TouchableBounce from "./ui/TouchableBounce";
-import { UserMessage } from "./user-message";
+import { ChatMessage } from "./user-message";
 import { Message } from "./prompt-on-tap";
 
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
@@ -29,10 +29,7 @@ const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 interface ChatToolbarInnerProps {
   messages: Message[];
   setMessages: (v: Message[]) => void;
-  onSubmit: (message: string) => {
-    id: string;
-    display: React.ReactNode;
-  };
+  onSubmit: (message: string) => string;
   disabled?: boolean;
 }
 
@@ -84,26 +81,26 @@ export function ChatToolbarInner({
         textInput.current?.clear();
       });
 
+      const response = onSubmit(value);
+      const llmMessage = {
+        id: nanoid(),
+        display: <ChatMessage turn="llm">{response}</ChatMessage>,
+      };
+
       setMessages([
+        // Should be  in two steps, but as it's sync, no need, if it were async, we would set first the user message, then the llm message once it's ready so  the UI would not be blocked
         ...messages,
         {
           id: nanoid(),
-          display: <UserMessage>{value}</UserMessage>,
+          display: <ChatMessage turn={"user"}>{value}</ChatMessage>,
         },
+
+        llmMessage,
       ]);
-
-      const message = onSubmit(value);
-
-      const responseMessage = {
-        id: nanoid(),
-        display: message.display,
-      };
-
-      setMessages([...messages, responseMessage]);
 
       setInputValue("");
     },
-    [textInput, setMessages, onSubmit]
+    [textInput, setMessages, onSubmit, messages]
   );
 
   const onSubmitEditing = useCallback(
@@ -114,8 +111,6 @@ export function ChatToolbarInner({
   );
 
   const theme = useColorScheme();
-
-
 
   return (
     <Animated.View
