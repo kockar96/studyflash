@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const Home = () => {
+const Create = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Decks Page</Text>
+      <Text style={styles.text}>Create Page</Text>
     </View>
   );
 };
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Create;
